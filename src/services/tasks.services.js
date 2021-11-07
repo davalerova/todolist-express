@@ -29,7 +29,10 @@ const getTaskById = async (id) => {
   try {
     const tasks = await getAllTasks();
     const task = tasks.find((e) => e.id === id);
-    return task;
+    if (task) {
+      return task;
+    }
+    return false;
   } catch (error) {
     throw error;
   }
@@ -80,9 +83,13 @@ const deleteTask = async (id) => {
   try {
     const tasks = await getAllTasks();
     const taskIndex = tasks.findIndex((e) => e.id === id);
-    tasks.splice(taskIndex, 1);
-    await writeTasks(tasks);
-    return true;
+    console.log(taskIndex);
+    if (taskIndex !== -1) {
+      tasks.splice(taskIndex, 1);
+      await writeTasks(tasks);
+      return true;
+    }
+    return false;
   } catch (error) {
     throw error;
   }
